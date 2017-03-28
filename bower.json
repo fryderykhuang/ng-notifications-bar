@@ -1,7 +1,7 @@
 {
-  "name": "ng-notifications-bar",
-  "version": "0.0.15",
-  "homepage": "https://github.com/alexbeletsky/ng-notifications-bar",
+  "name": "ng-notifications-bar-ex",
+  "version": "1.0.0",
+  "homepage": "https://github.com/fryderykhuang/ng-notifications-bar",
   "authors": [
     "alexanderbeletsky <alexander.beletsky@gmail.com>"
   ],
