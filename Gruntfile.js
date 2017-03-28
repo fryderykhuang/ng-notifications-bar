@@ -15,12 +15,9 @@ module.exports = function (grunt) {
 		jshint: {
 			files: ['src/*.js']
 		},
-		compass: {
-			dev: {
-				options: {
-					sassDir: 'sass',
-					cssDir: 'css',
-				}
+		sass: {
+			dist: {
+				files: [{"css/ngNotificationsBar.css": "sass/ngNotificationsBar.scss"}]
 			}
 		},
 		cssmin: {
@@ -43,7 +40,7 @@ module.exports = function (grunt) {
 			},
 			sass: {
 				files: 'sass/*.scss',
-				tasks: ['compass', 'cssmin'],
+				tasks: ['sass', 'cssmin'],
 				options: {
 					livereload: true
 				}
@@ -90,15 +87,15 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-wiredep');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-compass');
+	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
-	grunt.registerTask('sass', ['compass', 'cssmin']);
-	grunt.registerTask('build', ['uglify', 'compass', 'cssmin', 'wiredep', 'copy']);
+	grunt.registerTask('css', ['sass', 'cssmin']);
+	grunt.registerTask('build', ['uglify', 'sass', 'cssmin', 'wiredep', 'copy']);
 	grunt.registerTask('deploy', ['build', 'shell']);
 
 	grunt.registerTask('start:example', ['build', 'connect', 'watch']);

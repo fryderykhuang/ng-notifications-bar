@@ -40,7 +40,7 @@
 		background-color: #F7CA18;
 		border-bottom: 1px solid #e7ba08;
 	}
-	
+
 	.info {
 		@extend .notification;
 		background-color: #0c6997;
@@ -52,5 +52,8 @@
 		cursor: pointer;
 		padding: 10px;
 		margin: 0 auto;
+	}
+	.buttons{
+		text-decoration: underline;
 	}
 }

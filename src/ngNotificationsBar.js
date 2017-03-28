@@ -34,19 +34,19 @@
 		function setAutoHide(value){
 			config.autoHide = value;
 		}
-		
+
 		function setAutoHideAnimation(value){
 			config.autoHideAnimation = value;
 		}
-		
+
 		function getAutoHideAnimation(){
 			return config.autoHideAnimation;
 		}
-		
+
 		function setAutoHideAnimationDelay(value){
 			config.autoHideAnimationDelay = value;
 		}
-		
+
 		function getAutoHideAnimationDelay(){
 			return config.autoHideAnimationDelay;
 		}
@@ -59,9 +59,9 @@
 			setHideDelay: setHideDelay,
 
 			setAutoHide: setAutoHide,
-			
+
 			setAutoHideAnimation: setAutoHideAnimation,
-			
+
 			setAutoHideAnimationDelay: setAutoHideAnimationDelay,
 
 			setAcceptHTML: setAcceptHTML,
@@ -71,9 +71,9 @@
 					getHideDelay: getHideDelay,
 
 					getAutoHide: getAutoHide,
-					
+
 					getAutoHideAnimation: getAutoHideAnimation,
-					
+
 					getAutoHideAnimationDelay: getAutoHideAnimationDelay,
 
 					getAcceptHTML: getAcceptHTML
@@ -83,20 +83,20 @@
 	});
 
 	module.factory('notifications', ['$rootScope', function ($rootScope) {
-		var showError = function (message) {
-			$rootScope.$broadcast('notifications:error', message);
+		var showError = function (message, buttons) {
+			$rootScope.$broadcast('notifications:error', {message: message, buttons: buttons} );
 		};
 
-		var showWarning = function (message) {
-			$rootScope.$broadcast('notifications:warning', message);
-		};
-		
-		var showInfo = function (message) {
-			$rootScope.$broadcast('notifications:info', message);
+		var showWarning = function (message, buttons) {
+			$rootScope.$broadcast('notifications:warning', {message: message, buttons: buttons} );
 		};
 
-		var showSuccess = function (message) {
-			$rootScope.$broadcast('notifications:success', message);
+		var showInfo = function (message, buttons) {
+				$rootScope.$broadcast('notifications:info', {message: message, buttons: buttons} );
+		};
+
+		var showSuccess = function (message, buttons) {
+			$rootScope.$broadcast('notifications:success', {message: message, buttons: buttons} );
 		};
 
 		var closeAll = function () {
@@ -122,6 +122,7 @@
 					<div class="notifications-container" ng-if="notifications.length">\
 						<div class="{{note.type}}" ng-repeat="note in notifications" ng-class="note.animation">\
 							<span class="message" ng-bind-html="note.message"></span>\
+							<span ng-repeat="(text, cb) in note.buttons" class="' + notificationsConfig.buttonClasses + ' buttons" ng-click="cb(close)">{{text}}</span>\
 							<span class="' + iconClasses + ' close-click" ng-click="close($index)"></span>\
 						</div>\
 					</div>\
@@ -129,6 +130,7 @@
 					<div class="notifications-container" ng-if="notifications.length">\
 						<div class="{{note.type}}" ng-repeat="note in notifications" ng-class="note.animation">\
 							<span class="message" >{{note.message}}</span>\
+							<span ng-repeat="(text, cb) in note.buttons" class="' + notificationsConfig.buttonClasses + ' buttons" ng-click="cb(close)">{{text}}</span>\
 							<span class="' + iconClasses + ' close-click" ng-click="close($index)"></span>\
 						</div>\
 					</div>\
@@ -149,10 +151,10 @@
 					notifications.forEach(function (el, index) {
 						if (el.id === id) {
 							found = index;
-							
+
 							el.animation = {};
 							el.animation[autoHideAnimation] = true;
-							
+
 							scope.$apply();
 						}
 					});
@@ -176,7 +178,7 @@
 					}
 
 					var id = 'notif_' + (new Date()).getTime();
-					notifications.push({id: id, type: type, message: message, animation: animation});
+					notifications.push({id: id, type: type, message: message, animation: animation, buttons: data.buttons});
 					if (hide) {
 						var timer = $timeout(function () {
 							removeById(id);
@@ -192,7 +194,7 @@
 				scope.$on('notifications:warning', function (event, data) {
 					notificationHandler(event, data, 'warning');
 				});
-				
+
 				scope.$on('notifications:info', function (event, data) {
 					notificationHandler(event, data, 'info');
 				});
@@ -203,7 +205,7 @@
 
 				scope.$on('notifications:closeAll', function () {
 					notifications.length = 0;
-				})
+				});
 
 				scope.close = function (index) {
 					notifications.splice(index, 1);
