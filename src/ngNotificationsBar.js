@@ -122,16 +122,20 @@
 					<div class="notifications-container" ng-if="notifications.length">\
 						<div class="{{note.type}}" ng-repeat="note in notifications" ng-class="note.animation">\
 							<span class="message" ng-bind-html="note.message"></span>\
-							<span ng-repeat="(text, cb) in note.buttons" class="' + notificationsConfig.buttonClasses + ' buttons" ng-click="cb(close)">{{text}}</span>\
-							<span class="' + iconClasses + ' close-click" ng-click="close($index)"></span>\
+							<div class="buttons-container">\
+								<span ng-repeat="(text, cb) in note.buttons" class="' + notificationsConfig.buttonClasses + ' buttons" ng-click="cb(close)">{{text}}</span>\
+								<span class="' + iconClasses + ' close-click" ng-click="close($index)"></span>\
+							<div>\
 						</div>\
 					</div>\
 				' : '\
 					<div class="notifications-container" ng-if="notifications.length">\
 						<div class="{{note.type}}" ng-repeat="note in notifications" ng-class="note.animation">\
 							<span class="message" >{{note.message}}</span>\
-							<span ng-repeat="(text, cb) in note.buttons" class="' + notificationsConfig.buttonClasses + ' buttons" ng-click="cb(close)">{{text}}</span>\
-							<span class="' + iconClasses + ' close-click" ng-click="close($index)"></span>\
+							<div class="buttons-container">\
+								<span ng-repeat="(text, cb) in note.buttons" class="' + notificationsConfig.buttonClasses + ' buttons" ng-click="cb(close)">{{text}}</span>\
+								<span class="' + iconClasses + ' close-click" ng-click="close($index)"></span>\
+							<div>\
 						</div>\
 					</div>\
 				'
